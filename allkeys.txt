@@ -1,0 +1,16 @@
+Here
+
+appId: CEufilVAkzF7nIwqIDkD
+appCode: 6WIuZCeWD4VH_NLsMiKDaA
+
+yelp
+consumerKey : "anMgBm3JJIbvpmjosHZluQ",
+consumerSecret : "dCgwZQoLQH5eDtj4sHw1WeFgxMo",
+accessToken : "Fv4w2x2W0qA420dCjpUfGnOLQmWT0x3V",
+accessTokenSecret : "sDQFwzxgTjtT5OtLGWcFOdsQ2Hk",
+
+gZqPfrWiORf7miP6fFvM
+V6Rk3JBm8TmDWq79guz45g
+
+//   var Lat = response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
+// var Long = response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);

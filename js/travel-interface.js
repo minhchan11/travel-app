@@ -6,5 +6,6 @@ $(document).ready(function(){
     event.preventDefault();
     newTravel.place = $("#destination").val();
     newTravel.getInfo();
+    newTravel.getCoordinate();
   })
 });
