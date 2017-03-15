@@ -20,7 +20,7 @@
     "jshint": "^2.9.4",
     "vinyl-source-stream": "^1.1.0"
   },
-  "description": "alarm app",
+  "description": "travel app",
   "dependencies": {
     "gulp": "^3.9.1"
   },
