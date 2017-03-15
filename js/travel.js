@@ -1,19 +1,16 @@
 // var apiYelpKey = require.("./../.env").apiYelpKey;
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
-
-
+var lat = "";
+var long = "";
 function Travel(){
   this.place = "";
 }
-
-var lat = "";
-var long = "";
-
 Travel.prototype.getCoordinate = function () {
+
   $.get('https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=' + this.place + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret + '&gen=8' ).then(function(response) {
-    lat = response.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
-    long = response.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
+    $("input#lat").val(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
+    $("input#long").val(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
     console.log(response);
   })
   .fail(function(error) {
@@ -21,6 +18,15 @@ Travel.prototype.getCoordinate = function () {
   });
 };
 
+Travel.prototype.getAttractions = function (lat, long) {
+  $.get('https://places.demo.api.here.com/places/v1/discover/here?at=' + lat + '%2C' + long + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret)
+  .then(function(response) {
+    console.log(response);
+  })
+  .fail(function(error) {
+    console.log("error");
+  });
+};
 
 Travel.prototype.getLocalBusinesses = function () {
   var auth = {
