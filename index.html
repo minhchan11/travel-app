@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="build/css/vendor.css">
+  <link rel="stylesheet" href="build/css/styles.css">
   <link rel="stylesheet" href="/bower_components/jquery-ui/themes/humanity/jquery-ui.css">
   <script src="build/js/vendor.min.js"></script>
   <script type="text/javascript" src="build/js/app.js"></script>
@@ -13,20 +14,39 @@
 <body>
   <div class="container">
     <h1 class="jumbotron">Plan a trip</h1>
-    <div>
-      <form class="form-group" id="customer">
-        <label for="destination">Destination:</label>
-        <input id="destination" class="form-control" type="text" name="destination">
-        <label for="depart-date">Depart</label>
-        <input id="depart-date" class="form-control" type="datetime" name="depart-date">
-        <label for="return-date">Return</label>
-        <input id="return-date" class="form-control" type="datetime" name="return-date">
-        <label for="party-size">Number of pax</label>
-        <input id="party-size" class="form-control" type="number" name="party-size">
-        <label for="budget">Budget</label>
-        <input id="budget" class="form-control" type="number" name="budget">
-        <button type="submit" class="btn btn-primary">Travel!</button>
-      </form>
+    <div class="panel panel-success">
+      <div class="panel-heading">Trip Planner</div>
+      <div class="panel-body">
+          <form id="customer" class="form-group">
+              <label for="destination">Destination:</label>
+              <input id="destination" class="form-control" type="text" name="destination">
+              <div class="form-inline">
+                <label class="col-2 col-form-label">Depart:</label>
+                <div class="col-4">
+                  <input id="depart-date" class="form-control" type="date" name="depart-date">
+                </div>
+                <label for="return-date" class= "col-2 col-form-label">Return:</label>
+                <div class="col-4">
+                  <input id="return-date" class="form-control" type="date" name="return-date">
+                </div>
+              </div>
+
+              <label for="party-size">Number of pax</label>
+              <input id="party-size" class="form-control" type="number" name="party-size">
+              <label for="budget">Budget</label>
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="number" class="form-control" id="budget">
+                <span class="input-group-addon">.00</span>
+              </div>
+        </div>
+
+      </div>
+      <button type="submit" class="btn btn-primary">Travel!</button>
+    </form>
+    </div>
+      <div id="hide" class="hidden">
+
       <hr>
       <h6>The exchange rate compared to USD:<span id="rate"></span></h6>
       <h6>Your total budget in local currency is: <span id="convert"></span></h6>
@@ -56,8 +76,8 @@
         <ul><span id="hotel"></span></ul>
       </div>
     </div>
+  </div>
 
-    </div>
   </div>
 </body>
 </html>

@@ -8,10 +8,12 @@ $(document).ready(function(){
   $("#customer").submit(function(event) {
     event.preventDefault();
     $("#attractions").text("");
+    $("#hide").removeClass("hidden");
     $("#hotel").text("");
     $("#restaurant").text("");
     $("#rate").text("");
     $("#convert").text("");
+    $("#weather").text("");
     newTravel.place = $("#destination").val().replace(" ","_");
     var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
@@ -31,7 +33,7 @@ $(document).ready(function(){
     setTimeout(function(){
       var currency = $("#currency").val();
       console.log(currency);
-      if(currency != "USD"){  
+      if(currency != "USD"){
       newTravel.getExchange(currency, newBudget);
     }
   }, 50);
