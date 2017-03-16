@@ -1,18 +1,41 @@
 // var apiYelpKey = require.("./../.env").apiYelpKey;
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
+var apiWeatherKey = require("./../.env").apiWeatherKey;
 var lat = "";
 var long = "";
 function Travel(){
-  this.place = ""
+  this.place = "";
 }
 
 
-Travel.prototype.getExchange = function (destinationCurrency) {
+Travel.prototype.getWeather = function () {
+    //Utilize http://fixer.io/ for currencies
+    $.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.place + '&appid=' + apiWeatherKey
+).then(function(response) {
+  console.log(response);
+  var forecast = response.list;
+  console.log(forecast);
+  var chosen = [6, 14, 22, 30, 38];
+  for (var j = 0; j < chosen.length; j++) {
+    var getDate = forecast[chosen[j]].dt_txt.toString().slice(0,10);
+    var toFarenheit = (parseFloat(forecast[chosen[j]].main.temp_min)*9/5-460).toFixed(2);
+    $("#weather").append("<div class='col-md-2'>" + "Date: " + getDate + "<br>" + " Temperature: "+ toFarenheit + "<br>" + "Forecast: " + forecast[chosen[j]].weather[0].main +"</div>");
+}
+}).fail(function(error) {
+  console.log("error");
+});
+};
+
+Travel.prototype.getExchange = function (destinationCurrency, budget) {
     //Utilize http://fixer.io/ for currencies
     $.get('http://api.fixer.io/latest?base=USD&symbols=' + destinationCurrency
 ).then(function(response) {
-    console.log(response);
+  var rate = response.rates;
+  var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
+  console.log(shortRate * budget);
+  $("#rate").text(shortRate.toString());
+  $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
 }).fail(function(error) {
   console.log("error");
 });
@@ -105,7 +128,7 @@ Travel.prototype.getLocalRestaurants = function () {
     'cache': true
   })
   .done(function(data, textStatus, jqXHR) {
-    console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
+    // console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
 
     var restaurants = jqXHR.responseJSON.businesses
     restaurants.forEach(function(item){
@@ -169,7 +192,7 @@ Travel.prototype.getLocalHotels = function () {
     'cache': true
   })
   .done(function(data, textStatus, jqXHR) {
-    console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
+    // console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
 
     var hotels = jqXHR.responseJSON.businesses
     hotels.forEach(function(item){

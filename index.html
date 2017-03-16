@@ -16,15 +16,23 @@
     <div>
       <form class="form-group" id="customer">
         <label for="destination">Destination:</label>
-        <input id="destination" class="form-control" type="text" name="destination" value="">
+        <input id="destination" class="form-control" type="text" name="destination">
         <label for="depart-date">Depart</label>
-        <input id="depart-date" class="form-control" type="datetime" name="depart-date" value="">
+        <input id="depart-date" class="form-control" type="datetime" name="depart-date">
         <label for="return-date">Return</label>
-        <input id="return-date" class="form-control" type="datetime" name="return-date" value="">
+        <input id="return-date" class="form-control" type="datetime" name="return-date">
         <label for="party-size">Number of pax</label>
-        <input id="party-size" class="form-control" type="number" name="party-size" value="">
+        <input id="party-size" class="form-control" type="number" name="party-size">
+        <label for="budget">Budget</label>
+        <input id="budget" class="form-control" type="number" name="budget">
         <button type="submit" class="btn btn-primary">Travel!</button>
       </form>
+      <hr>
+      <h6>The exchange rate compared to USD:<span id="rate"></span></h6>
+      <h6>Your total budget in local currency is: <span id="convert"></span></h6>
+      <hr>
+      <div class="row" id="weather"></div>
+      <hr>
       <span id="info"></span>
       <span id="error"></span>
       <span id="location"></span>
@@ -32,6 +40,7 @@
       <input type="text" id="long">
       <input type="text" id="country">
       <input type="text" id="currency">
+      <hr>
       <div class="">
         <h3>Places to see:</h3>
         <h5><ul><span id="attractions"></span></ul></h5>

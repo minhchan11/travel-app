@@ -14,3 +14,7 @@ V6Rk3JBm8TmDWq79guz45g
 
 //   var Lat = response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
 // var Long = response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
+
+
+
+openweathermap: 03e50e7310675c24e751614b1dfb2807

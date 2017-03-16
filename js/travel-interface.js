@@ -10,24 +10,31 @@ $(document).ready(function(){
     $("#attractions").text("");
     $("#hotel").text("");
     $("#restaurant").text("");
+    $("#rate").text("");
+    $("#convert").text("");
     newTravel.place = $("#destination").val().replace(" ","_");
+    var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
     newTravel.getCoordinate();
     newTravel.getLocalRestaurants();
     newTravel.getLocalHotels();
+    newTravel.getWeather();
     setTimeout(function(){
       newLat = $("input#lat").val();
       newLong = $("input#long").val();
       newTravel.getAttractions(newLat, newLong);
-  }, 100);
+  }, 5);
     setTimeout(function(){
       var country = $("input#country").val();
       newTravel.getCurrencyCode(country);
-  }, 200);
+  }, 10);
     setTimeout(function(){
       var currency = $("#currency").val();
-      newTravel.getExchange();
-  }, 500);
+      console.log(currency);
+      if(currency != "USD"){  
+      newTravel.getExchange(currency, newBudget);
+    }
+  }, 50);
 
 
   })
