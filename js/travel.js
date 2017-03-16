@@ -44,7 +44,9 @@ Travel.prototype.getExchange = function (destinationCurrency, budget) {
 Travel.prototype.getCurrencyCode = function(country) {
   $.get('https://restcountries.eu/rest/v2/alpha/'+country
 ).then(function(response) {
-  $('#currency').val(response.currencies[0].code)
+  $('#currency').val(response.currencies[0].code);
+  $('#currency1').text(response.currencies[0].code);
+
 }).fail(function(error) {
 console.log("error");
 });
@@ -132,7 +134,7 @@ Travel.prototype.getLocalRestaurants = function () {
 
     var restaurants = jqXHR.responseJSON.businesses
     restaurants.forEach(function(item){
-      $("#restaurant").append("<div class='col-md-1'>" + "<img src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
+      $("#restaurant").append("<div class='col-md-1 newRes'>" + "<img class='pics' src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
     });
 
   }
@@ -196,7 +198,7 @@ Travel.prototype.getLocalHotels = function () {
 
     var hotels = jqXHR.responseJSON.businesses
     hotels.forEach(function(item){
-      $("#hotel").append("<div class='col-md-1'>" + "<img src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
+      $("#hotel").append("<div class='col-md-1 newHotel'>" + "<img class='pics' src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
     });
 
   }
@@ -231,6 +233,7 @@ Travel.prototype.getInfo = function () {
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
 		$('#info').html($(i).find('p').has('b'));
+		$('#info-picture').html($(i).('img').first());
     }
 });
 };

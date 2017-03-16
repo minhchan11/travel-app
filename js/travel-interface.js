@@ -14,7 +14,7 @@ $(document).ready(function(){
     $("#rate").text("");
     $("#convert").text("");
     $("#weather").text("");
-    newTravel.place = $("#destination").val().replace(" ","_");
+    newTravel.place = $("#destination").val().replace(" ","_").toLowerCase();
     var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
     newTravel.getCoordinate();
@@ -33,7 +33,8 @@ $(document).ready(function(){
     setTimeout(function(){
       var currency = $("#currency").val();
       console.log(currency);
-      if(currency != "USD"){
+      if(currency !== "USD"){
+      $("#budgetConvert").removeClass("hidden");
       newTravel.getExchange(currency, newBudget);
     }
   }, 50);
