@@ -132,7 +132,7 @@ Travel.prototype.getLocalRestaurants = function () {
   .done(function(data, textStatus, jqXHR) {
     // console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
 
-    var restaurants = jqXHR.responseJSON.businesses
+    var restaurants = jqXHR.responseJSON.businesses;
     restaurants.forEach(function(item){
       $("#restaurant").append("<div class='col-md-1 newRes'>" + "<img class='pics' src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
     });
@@ -196,7 +196,7 @@ Travel.prototype.getLocalHotels = function () {
   .done(function(data, textStatus, jqXHR) {
     // console.log('success[' + data + '], status[' + textStatus + '], jqXHR[' + JSON.stringify(jqXHR) + ']');
 
-    var hotels = jqXHR.responseJSON.businesses
+    var hotels = jqXHR.responseJSON.businesses;
     hotels.forEach(function(item){
       $("#hotel").append("<div class='col-md-1 newHotel'>" + "<img class='pics' src="+ item.image_url + ">" + "<br>" +"<a href=" + item.url + ">" + item.name + "</a>" + "<br>" + "<p>" + item.rating + "&#9733" + "</p>" + "</div>" );
     });
@@ -233,7 +233,7 @@ Travel.prototype.getInfo = function () {
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
 		$('#info').html($(i).find('p').has('b'));
-		$('#info-picture').html($(i).('img').first());
+		$('#info-picture').html($(i).find('img').first());
     }
 });
 };
