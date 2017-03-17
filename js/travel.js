@@ -80,6 +80,21 @@ Travel.prototype.getAttractions = function (lat, long) {
   });
 };
 
+// Travel.prototype.getAirport = function () {
+//   $.get('https://places.demo.api.here.com/places/v1/discover/explore?at=52.5159%2C13.3777&cat=airport&app_id=DemoAppId01082013GAL&app_code=AJKnXv84fjrb0KIHawS0Tg)
+//   .then(function(response) {
+//     console.log(response);
+//     var attractions = response.results.items;
+//     attractions.forEach(function(item){
+//       $('#attractions').append('<li>' + item.title + '</li>');
+//     });
+//
+//   })
+//   .fail(function(error) {
+//     console.log("error");
+//   });
+// };
+
 Travel.prototype.getLocalRestaurants = function () {
   var auth = {
     consumerKey : "anMgBm3JJIbvpmjosHZluQ",
