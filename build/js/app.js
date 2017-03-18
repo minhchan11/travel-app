@@ -11,8 +11,6 @@ exports.apiWeatherKey = "03e50e7310675c24e751614b1dfb2807"
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
 var apiWeatherKey = require("./../.env").apiWeatherKey;
-var lat = "";
-var long = "";
 function Travel(){
   this.place = "";
 }
@@ -62,16 +60,17 @@ console.log("error");
 };
 
 Travel.prototype.getCoordinate = function () {
-
+  var position = [];
   $.get('https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=' + this.place + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret + '&gen=8' ).then(function(response) {
-    $("input#lat").val(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
-    $("input#long").val(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
+    position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
+    position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
     $('#country').val((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
     console.log(response);
   })
   .fail(function(error) {
     console.log("error");
   });
+  return position;
 };
 
 Travel.prototype.getAttractions = function (lat, long) {
@@ -303,15 +302,13 @@ $(document).ready(function(){
     newTravel.place = $("#destination").val().replace(" ","_").toLowerCase();
     var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
-    newTravel.getCoordinate();
+    var newPosition = newTravel.getCoordinate();
     newTravel.getLocalRestaurants();
     newTravel.getLocalHotels();
     newTravel.getWeather();
     setTimeout(function(){
-      newLat = $("input#lat").val();
-      newLong = $("input#long").val();
-      newTravel.getAttractions(newLat, newLong);
-  }, 5);
+      newTravel.getAttractions(newPosition[0], newPosition[1]);
+  }, 100);
     setTimeout(function(){
       var country = $("input#country").val();
       newTravel.getCurrencyCode(country);

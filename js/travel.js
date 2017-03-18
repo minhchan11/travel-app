@@ -2,8 +2,6 @@
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
 var apiWeatherKey = require("./../.env").apiWeatherKey;
-var lat = "";
-var long = "";
 function Travel(){
   this.place = "";
 }
@@ -53,16 +51,17 @@ console.log("error");
 };
 
 Travel.prototype.getCoordinate = function () {
-
+  var position = [];
   $.get('https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=' + this.place + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret + '&gen=8' ).then(function(response) {
-    $("input#lat").val(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
-    $("input#long").val(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
+    position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
+    position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
     $('#country').val((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
     console.log(response);
   })
   .fail(function(error) {
     console.log("error");
   });
+  return position;
 };
 
 Travel.prototype.getAttractions = function (lat, long) {

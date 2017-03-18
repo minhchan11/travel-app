@@ -17,15 +17,13 @@ $(document).ready(function(){
     newTravel.place = $("#destination").val().replace(" ","_").toLowerCase();
     var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
-    newTravel.getCoordinate();
+    var newPosition = newTravel.getCoordinate();
     newTravel.getLocalRestaurants();
     newTravel.getLocalHotels();
     newTravel.getWeather();
     setTimeout(function(){
-      newLat = $("input#lat").val();
-      newLong = $("input#long").val();
-      newTravel.getAttractions(newLat, newLong);
-  }, 5);
+      newTravel.getAttractions(newPosition[0], newPosition[1]);
+  }, 100);
     setTimeout(function(){
       var country = $("input#country").val();
       newTravel.getCurrencyCode(country);
