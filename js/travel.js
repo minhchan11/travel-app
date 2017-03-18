@@ -2,6 +2,7 @@
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
 var apiWeatherKey = require("./../.env").apiWeatherKey;
+var currencyKey = require("./../.env").currencyKey;
 function Travel(){
   this.place = "";
 }
@@ -11,9 +12,7 @@ Travel.prototype.getWeather = function () {
     //Utilize http://fixer.io/ for currencies
     $.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.place + '&appid=' + apiWeatherKey
 ).then(function(response) {
-  console.log(response);
   var forecast = response.list;
-  console.log(forecast);
   var chosen = [6, 14, 22, 30, 38];
   for (var j = 0; j < chosen.length; j++) {
     var getDate = forecast[chosen[j]].dt_txt.toString().slice(0,10);
@@ -25,15 +24,16 @@ Travel.prototype.getWeather = function () {
 });
 };
 
-Travel.prototype.getExchange = function (destinationCurrency, budget) {
+Travel.prototype.getExchange = function (foreign, budget) {
     //Utilize http://fixer.io/ for currencies
-    $.get('http://api.fixer.io/latest?base=USD&symbols=' + destinationCurrency
+$.get('http://apilayer.net/api/live?access_key=' + currencyKey + '&currencies=USD,'+ foreign +'&format=1'
 ).then(function(response) {
-  var rate = response.rates;
-  var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
-  console.log(shortRate * budget);
-  $("#rate").text(shortRate.toString());
-  $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
+  console.log(response.quotes);
+  // var rate = response.rates;
+  // var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
+  // console.log(shortRate * budget);
+  // $("#rate").text(shortRate.toString());
+  // $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
 }).fail(function(error) {
   console.log("error");
 });
@@ -42,9 +42,8 @@ Travel.prototype.getExchange = function (destinationCurrency, budget) {
 Travel.prototype.getCurrencyCode = function(country) {
   $.get('https://restcountries.eu/rest/v2/alpha/'+country
 ).then(function(response) {
-  $('#currency').val(response.currencies[0].code);
-  $('#currency1').text(response.currencies[0].code);
-
+  currency = response.currencies[0].code;
+  $('#currency').text(response.currencies[0].code);
 }).fail(function(error) {
 console.log("error");
 });
@@ -55,7 +54,7 @@ Travel.prototype.getCoordinate = function () {
   $.get('https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=' + this.place + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret + '&gen=8' ).then(function(response) {
     position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
     position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
-    $('#country').val((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
+    position.push((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
     console.log(response);
   })
   .fail(function(error) {

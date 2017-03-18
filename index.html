@@ -56,23 +56,19 @@
 <hr>
       <div id="hide" class="hidden">
       <div class="well hidden" id="budgetConvert">
-        <h6>USD value compared to local currency <span id="currency1"></span>:<span id="rate"></span></h6>
-        <h6>Your total budget in local currency is: <span id="convert"></span></h6>
+        <h6>USD value compared to local currency <span class="details" id="currency"></span>:<span id="rate"></span></h6>
+        <h6>Your total budget in local currency is: <span class="details" id="convert"></span></h6>
       <hr>
       </div>
       <div class="row panel-group" id="weather"></div>
-      <input type="hidden" id="lat">
-      <input type="hidden" id="long">
-      <input type="hidden" id="country">
-      <input type="hidden" id="currency">
       <hr>
       <div class="row">
         <div class="col-sm-6">
-          <span id="info"></span>
+          <span class="details" id="info"></span>
         </div>
         <div class="col-sm-3">
           <h3>Places to see:</h3>
-          <h5><ul><span id="attractions"></span></ul></h5>
+          <h5><ul><span class="details" id="attractions"></span></ul></h5>
         </div>
         <div class="col-sm-3">
           <span id="info-picture"></span>
@@ -89,11 +85,11 @@
 
       <div class="row">
         <h3>Places to eat:</h3>
-        <span id="restaurant"></span>
+        <span class="details" id="restaurant"></span>
       </div>
       <div class="row">
         <h3>Places to stay:</h3>
-        <span id="hotel"></span>
+        <span class="details" id="hotel"></span>
       </div>
     </div>
   </div>

@@ -18,3 +18,4 @@ V6Rk3JBm8TmDWq79guz45g
 
 
 openweathermap: 03e50e7310675c24e751614b1dfb2807
+currencyLayer: c1d45abfb88ffc2ee4ed5b834aa96c6f

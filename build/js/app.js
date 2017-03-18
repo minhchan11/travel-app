@@ -5,12 +5,14 @@ exports.apiHereKey = "vlKAagYutyi1MtwC9mqn";
 exports.apiHereSecret = "b0Ua_OhnLZlGJNniPT4E2A";
 
 exports.apiWeatherKey = "03e50e7310675c24e751614b1dfb2807"
+exports.currencyKey = "c1d45abfb88ffc2ee4ed5b834aa96c6f"
 
 },{}],2:[function(require,module,exports){
 // var apiYelpKey = require.("./../.env").apiYelpKey;
 var apiHereKey = require("./../.env").apiHereKey;
 var apiHereSecret = require("./../.env").apiHereSecret;
 var apiWeatherKey = require("./../.env").apiWeatherKey;
+var currencyKey = require("./../.env").currencyKey;
 function Travel(){
   this.place = "";
 }
@@ -20,9 +22,7 @@ Travel.prototype.getWeather = function () {
     //Utilize http://fixer.io/ for currencies
     $.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.place + '&appid=' + apiWeatherKey
 ).then(function(response) {
-  console.log(response);
   var forecast = response.list;
-  console.log(forecast);
   var chosen = [6, 14, 22, 30, 38];
   for (var j = 0; j < chosen.length; j++) {
     var getDate = forecast[chosen[j]].dt_txt.toString().slice(0,10);
@@ -34,15 +34,16 @@ Travel.prototype.getWeather = function () {
 });
 };
 
-Travel.prototype.getExchange = function (destinationCurrency, budget) {
+Travel.prototype.getExchange = function (foreign, budget) {
     //Utilize http://fixer.io/ for currencies
-    $.get('http://api.fixer.io/latest?base=USD&symbols=' + destinationCurrency
+$.get('http://apilayer.net/api/live?access_key=' + currencyKey + '&currencies=USD,'+ foreign +'&format=1'
 ).then(function(response) {
-  var rate = response.rates;
-  var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
-  console.log(shortRate * budget);
-  $("#rate").text(shortRate.toString());
-  $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
+  console.log(response.quotes);
+  // var rate = response.rates;
+  // var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
+  // console.log(shortRate * budget);
+  // $("#rate").text(shortRate.toString());
+  // $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
 }).fail(function(error) {
   console.log("error");
 });
@@ -51,9 +52,8 @@ Travel.prototype.getExchange = function (destinationCurrency, budget) {
 Travel.prototype.getCurrencyCode = function(country) {
   $.get('https://restcountries.eu/rest/v2/alpha/'+country
 ).then(function(response) {
-  $('#currency').val(response.currencies[0].code);
-  $('#currency1').text(response.currencies[0].code);
-
+  currency = response.currencies[0].code;
+  $('#currency').text(response.currencies[0].code);
 }).fail(function(error) {
 console.log("error");
 });
@@ -64,7 +64,7 @@ Travel.prototype.getCoordinate = function () {
   $.get('https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=' + this.place + '&app_id=' + apiHereKey + '&app_code=' + apiHereSecret + '&gen=8' ).then(function(response) {
     position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Latitude);
     position.push(response.Response.View[0].Result[0].Location.DisplayPosition.Longitude);
-    $('#country').val((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
+    position.push((response.Response.View[0].Result[0].Location.Address.Country).toLowerCase());
     console.log(response);
   })
   .fail(function(error) {
@@ -284,43 +284,29 @@ $(document).ready(function(){
 });
 
 var Travel = require('./../js/travel.js').travelObject;
-var newLat = "";
-var newLong = "";
 $(document).ready(function(){
   var newTravel = new Travel();
-
-
   $("#customer").submit(function(event) {
     event.preventDefault();
-    $("#attractions").text("");
     $("#hide").removeClass("hidden");
-    $("#hotel").text("");
-    $("#restaurant").text("");
-    $("#rate").text("");
-    $("#convert").text("");
+    $('span[class=details]').text("");
     $("#weather").text("");
     newTravel.place = $("#destination").val().replace(" ","_").toLowerCase();
-    var newBudget = parseFloat($("#budget").val());
     newTravel.getInfo();
     var newPosition = newTravel.getCoordinate();
     newTravel.getLocalRestaurants();
     newTravel.getLocalHotels();
     newTravel.getWeather();
     setTimeout(function(){
-      newTravel.getAttractions(newPosition[0], newPosition[1]);
-  }, 100);
+      newTravel.getAttractions(newPosition[0], newPosition[1]);}, 50);
+    setTimeout(function(){ newTravel.getCurrencyCode(newPosition[2]);}, 50);
+    var newBudget = parseFloat($("#budget").val());
     setTimeout(function(){
-      var country = $("input#country").val();
-      newTravel.getCurrencyCode(country);
-  }, 10);
-    setTimeout(function(){
-      var currency = $("#currency").val();
-      console.log(currency);
-      if(currency !== "USD"){
-      $("#budgetConvert").removeClass("hidden");
-      newTravel.getExchange(currency, newBudget);
+      if($("#currency").text() !== "USD"){
+        $("#budgetConvert").removeClass("hidden");
+      newTravel.getExchange($("#currency").text(), newBudget);
     }
-  }, 50);
+  }, 100);
 
 
   })
