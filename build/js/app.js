@@ -35,15 +35,14 @@ Travel.prototype.getWeather = function () {
 };
 
 Travel.prototype.getExchange = function (foreign, budget) {
-    //Utilize http://fixer.io/ for currencies
 $.get('http://apilayer.net/api/live?access_key=' + currencyKey + '&currencies=USD,'+ foreign +'&format=1'
 ).then(function(response) {
-  console.log(response.quotes);
-  // var rate = response.rates;
-  // var shortRate = parseFloat(rate[Object.keys(rate)[0]]);
-  // console.log(shortRate * budget);
-  // $("#rate").text(shortRate.toString());
-  // $("#convert").text(parseFloat(shortRate * budget).toFixed(2));
+  var temp = response.quotes;
+  var rate = temp[Object.keys(temp)[1]];
+  console.log(budget);
+  console.log(rate * budget);
+  $("#rate").text(rate.toString());
+  $("#convert").text(parseFloat(rate * budget).toFixed(2));
 }).fail(function(error) {
   console.log("error");
 });
@@ -52,6 +51,7 @@ $.get('http://apilayer.net/api/live?access_key=' + currencyKey + '&currencies=US
 Travel.prototype.getCurrencyCode = function(country) {
   $.get('https://restcountries.eu/rest/v2/alpha/'+country
 ).then(function(response) {
+  console.log(response);
   currency = response.currencies[0].code;
   $('#currency').text(response.currencies[0].code);
 }).fail(function(error) {
@@ -299,14 +299,14 @@ $(document).ready(function(){
     newTravel.getWeather();
     setTimeout(function(){
       newTravel.getAttractions(newPosition[0], newPosition[1]);}, 50);
-    setTimeout(function(){ newTravel.getCurrencyCode(newPosition[2]);}, 50);
+    setTimeout(function(){ newTravel.getCurrencyCode(newPosition[2]);}, 100);
     var newBudget = parseFloat($("#budget").val());
     setTimeout(function(){
       if($("#currency").text() !== "USD"){
         $("#budgetConvert").removeClass("hidden");
       newTravel.getExchange($("#currency").text(), newBudget);
     }
-  }, 100);
+  }, 200);
 
 
   })

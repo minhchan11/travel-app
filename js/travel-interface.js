@@ -14,14 +14,14 @@ $(document).ready(function(){
     newTravel.getWeather();
     setTimeout(function(){
       newTravel.getAttractions(newPosition[0], newPosition[1]);}, 50);
-    setTimeout(function(){ newTravel.getCurrencyCode(newPosition[2]);}, 50);
+    setTimeout(function(){ newTravel.getCurrencyCode(newPosition[2]);}, 100);
     var newBudget = parseFloat($("#budget").val());
     setTimeout(function(){
       if($("#currency").text() !== "USD"){
         $("#budgetConvert").removeClass("hidden");
       newTravel.getExchange($("#currency").text(), newBudget);
     }
-  }, 100);
+  }, 200);
 
 
   })
