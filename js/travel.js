@@ -9,7 +9,6 @@ function Travel(){
 
 
 Travel.prototype.getWeather = function () {
-    //Utilize http://fixer.io/ for currencies
     $.get('http://api.openweathermap.org/data/2.5/forecast?q=' + this.place + '&appid=' + apiWeatherKey
 ).then(function(response) {
   var forecast = response.list;
@@ -78,20 +77,20 @@ Travel.prototype.getAttractions = function (lat, long) {
   });
 };
 
-// Travel.prototype.getAirport = function () {
-//   $.get('https://places.demo.api.here.com/places/v1/discover/explore?at=52.5159%2C13.3777&cat=airport&app_id=DemoAppId01082013GAL&app_code=AJKnXv84fjrb0KIHawS0Tg)
-//   .then(function(response) {
-//     console.log(response);
-//     var attractions = response.results.items;
-//     attractions.forEach(function(item){
-//       $('#attractions').append('<li>' + item.title + '</li>');
-//     });
-//
-//   })
-//   .fail(function(error) {
-//     console.log("error");
-//   });
-// };
+Travel.prototype.getAirport = function (lat, long) {
+  $.get('https://places.demo.api.here.com/places/v1/discover/explore?at=' + lat +'%2C' + long + '&cat=airport&app_id=' + apiHereKey + '&app_code=' + apiHereSecret)
+  .then(function(response) {
+    console.log(response);
+    var attractions = response.results.items;
+    attractions.forEach(function(item){
+      $('#attractions').append('<li>' + item.title + '</li>');
+    });
+
+  })
+  .fail(function(error) {
+    console.log("error");
+  });
+};
 
 Travel.prototype.getLocalRestaurants = function () {
   var auth = {
