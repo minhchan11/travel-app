@@ -10,6 +10,7 @@ var buildProduction = utilities.env.production;
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var cleanCSS = require('gulp-clean-css');
 
 
 var lib = require('bower-files')({
@@ -32,7 +33,7 @@ gulp.task('jsBrowserify', ['concatInterface'],function() {
 });
 
 gulp.task('concatInterface', function() {
-  return gulp.src(['./js/*-interface.js'])
+  return gulp.src(['./js/*.js'])
     .pipe(concat('allConcat.js'))
     .pipe(gulp.dest('./tmp'));
 });
@@ -103,10 +104,12 @@ gulp.task('htmlBuild', function() {
 });
 
 gulp.task('cssBuild', function() {
-  return gulp.src(['scss/*.scss'])
+  return gulp.src(['scss/*.scss','css/*.css'])
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())
+    .pipe(concat('styles.css'))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(gulp.dest('./build/css'))
     .pipe(browserSync.stream());
 });
